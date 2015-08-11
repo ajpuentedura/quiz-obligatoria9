@@ -12,13 +12,13 @@ var routes = require('./routes/index');
 
 var app = express();
 
-// view engine setup
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(partials());
 
-// uncomment after placing your favicon in /public
+
 app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -27,9 +27,9 @@ app.use(cookieParser('Quiz 2015'));
 app.use(session());
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
-// Helprs dinamicos:
+
 app.use(function(req,res,next){
-// guardar path en session.redir para despues de login
+
 	if(!req.path.match(/\/login|\/logout/)){
 		req.session.redir=req.path;
 	}
@@ -38,7 +38,6 @@ app.use(function(req,res,next){
 	if (req.session.tiempo){
       var ultimoTiempo = new Date().getTime();
       var intervalo = ultimoTiempo - req.session.tiempo;
-      //console.log("intervalo: "+req.session.tiempo);
       if (intervalo > (2 * 60 * 1000)) {
          delete req.session.tiempo;
         req.session.autoLogout = true;   
@@ -60,10 +59,7 @@ app.use(function(req, res, next) {
     next(err);
 });
 
-// error handlers
 
-// development error handler
-// will print stacktrace
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
         res.status(err.status || 500);
@@ -75,8 +71,7 @@ if (app.get('env') === 'development') {
     });
 }
 
-// production error handler
-// no stacktraces leaked to user
+
 app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
