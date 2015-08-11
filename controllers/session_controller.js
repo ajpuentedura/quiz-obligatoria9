@@ -2,7 +2,6 @@
 exports.new= function(req,res){
 	var errors= req.session.errors || {};
 	req.session.errors={};
-	
 	res.render('sessions/new',{errors:errors});
 };
 //POST /login --Crear la sesion
