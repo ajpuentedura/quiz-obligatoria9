@@ -26,41 +26,34 @@ var sequelize = new Sequelize( DB_name, user, pwd,
       }
 );
 
-// Importar la definicion de la table Quiz en quiz.js
+// Importar la definicion de la tabla Quiz en models/quiz.js
 var Quiz = sequelize.import(path.join(__dirname,'quiz'));
-var comment_path=path.join(__dirname,'comments');
-var Comment= sequelize.import(comment_path);
-Comment.belongsTo(Quiz);
-Quiz.hasMany(Comment);
-exports.Quiz = Quiz;  // exportar definicion de tabla Quiz
-exports.Comment=Comment;
+exports.Quiz = Quiz; // exportar definición de tabla Quiz
 // sequelize.sync() crea e inicializa tabla de preguntas en DB
 sequelize.sync().then(function() {
-	// success(..) ejecuta el manejador una vez creada la tabla
-	// la tabla se inicializa solo si esta vacia
-	Quiz.count().then(function(count){
-		if(count === 0){
-		  Quiz.create({ pregunta: 'Capital de Portugal',
-				respuesta: 'Lisboa',
-                                tematica: 'Geografía'
-			      })
-		  Quiz.create({ pregunta: 'Capital de España',
-				respuesta: 'Madrid',
-                                tematica: 'Geografía'
-			      })
-		  Quiz.create({ pregunta: 'Nombre común de Cloruro Sódico',
-				respuesta: 'Sal',
-                                tematica: 'Ciencia'
-			      })
-		  Quiz.create({ pregunta: 'Descubridor de América',
-				respuesta: 'Colón',
-                                tematica: 'Humanidades'
-			      })
-		  Quiz.create({ pregunta: 'Conexión de dispositivos de forma inalámbrica',
-				respuesta: 'Wifi',
-                                tematica: 'Tecnología'
-			      })
-		.then(function(){console.log('Base de datos Inicializada')});
-		};
-	});
+// then(..) ejecuta el manejador una vez creada la tabla
+Quiz.count().then(function (count){
+if(count === 0) { // la tabla se inicializa solo si está vacía
+Quiz.create({
+pregunta: 'Capital de Italia',
+respuesta: 'Roma',
+tema: 'otro'
+}).then(function(){console.log('Base de datos inicializada 1')});
+Quiz.create({
+pregunta: 'Capital de Portugal',
+respuesta: 'Lisboa',
+tema: 'otro'
+}).then(function(){console.log('Base de datos inicializada 2')});
+};
 });
+});
+
+//Importar la definición de la tabla Comment en models/comments.js
+var Comment = sequelize.import(path.join(__dirname,'comments'));
+
+
+//Definimos la relación entre tablas
+Comment.belongsTo(Quiz); //indica que un comment pertenece a un quiz.
+Quiz.hasMany(Comment); //indica que un quiz puede tener muchos comments.
+
+exports.Comment = Comment; //exportar definción de la tabla Comment.
