@@ -28,7 +28,7 @@ var sequelize = new Sequelize( DB_name, user, pwd,
 
 // Importar la definicion de la table Quiz en quiz.js
 var Quiz = sequelize.import(path.join(__dirname,'quiz'));
-var comment_path=path.join(__dirname,'comment');
+var comment_path=path.join(__dirname,'comments');
 var Comment= sequelize.import(comment_path);
 Comment.belongsTo(Quiz);
 Quiz.hasMany(Comment);
